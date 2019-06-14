@@ -22,36 +22,43 @@ In this example a photovoltaic plant is created:
 
 ```
 >>> import plant.pv as pv
->>> pv_plant = pv(id='test', k_pv=0.15, efficiency=0.75,
-...               peak_power=3)
->>> pvplant.compute_energy(1350)
->>> pvplant = PV_plant(id='test', lat=34.125, long=39.814,
+>>> pvplant = pv.PV_plant(id='test', lat=34.125, long=39.814,
 ...                   k_pv=0.15, efficiency=0.75,
 ...                   peak_power=3)
+>>> pvplant.compute_energy(1350)
 >>> pvplant.hourlyprofile = pvplant.profile()
->>> min(pvplant.hourlyprofile['output'])
 ```
 
 Here a wind turbine:
 
 ```
->>> import plant.wind as Wind_plant
->>> windplant = Wind_plant(id='test', lat=34.125, long=39.814,
-...                        peak_power=800, height=50, swept_area=8495,
-...                        model='Enercon E48 800')
+>>> import plant.wind as wind
+>>> windplant = wind.Wind_plant(id='test', lat=34.125, long=39.814,
+...                             peak_power=800, height=50, swept_area=8495,
+...                             model='Enercon E48 800')
 >>> windplant.hourlyprofile = windplant.profile()
->>> min(windplant.hourlyprofile['output'])
 ```
-
 and, finally, a solar thermal plant
 
 ```
->>> import plant.wind as Wind_plant
->>> windplant = Wind_plant(id='test', lat=34.125, long=39.814,
-...                        peak_power=800, height=50, swept_area=8495,
-...                        model='Enercon E48 800')
->>> windplant.hourlyprofile = windplant.profile()
->>> min(windplant.hourlyprofile['output'])
+>>> import plant.st as st
+>>> stplant = st.ST_plant(id='test', lat=34.125, long=39.814,
+...                         area=6)
+>>> stplant.hourlyprofile = stplant.profile()
 ```
 
+## Authors
+
+Giulia Garegnani<sup>*</sup> 
+
+<sup>*</sup> Eurac Research 
+
+Institute for Renewable Energy
+VoltaStraße/Via Via A. Volta 13/A
+39100 Bozen/Bolzano
+
+
+## Acknowledgement
+
+We would like to convey our deepest appreciation to the Horizon 2020 [Hotmaps Project](http://www.hotmaps-project.eu/) (Grant Agreement number 723677), which provided the funding to carry out the present investigation.
 
