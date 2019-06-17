@@ -20,7 +20,7 @@ class Wind_plant(pl.Plant):
     methods to compute different indicators. Additional parameters to
     Plant class
     """
-    def __init__(self, swept_area, height, model, **kwargs):
+    def __init__(self, swept_area=None, height=None, model=None, **kwargs):
         """Initialize the base and height attributes."""
         self.swept_area = swept_area
         self.height = height
