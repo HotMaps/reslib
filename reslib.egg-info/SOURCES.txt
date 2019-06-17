@@ -1,10 +1,11 @@
 README.md
 setup.py
-plant/__init__.py
-plant/plant.py
-plant/pv.py
-plant/st.py
-plant/wind.py
+reslib/__init__.py
+reslib/planning.py
+reslib/plant.py
+reslib/pv.py
+reslib/st.py
+reslib/wind.py
 reslib.egg-info/PKG-INFO
 reslib.egg-info/SOURCES.txt
 reslib.egg-info/dependency_links.txt

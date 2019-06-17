@@ -15,6 +15,7 @@ For more information see the [documentaion](https://www.renewables.ninja/documen
 
 ## How to install
 
+
 ```
 pip install git+https://github.com/HotMaps/reslib.git
 ```
