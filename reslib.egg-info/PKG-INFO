@@ -2,7 +2,7 @@ Metadata-Version: 2.1
 Name: reslib
 Version: 0.0.1
 Summary: Renewable energy plant classes
-Home-page: https://github.com/pypa/sampleproject
+Home-page: https://github.com/HotMaps/reslib.git
 Author: Giulia Garegnani
 Author-email: giuliagaregnani@gmail.com
 License: UNKNOWN
@@ -22,6 +22,7 @@ Description: # reslib
         For more information see the [documentaion](https://www.renewables.ninja/documentation)
         
         ## How to install
+        
         
         ```
         pip install git+https://github.com/HotMaps/reslib.git
