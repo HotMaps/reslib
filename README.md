@@ -3,7 +3,6 @@
 ## Summary
 Library with the class describing a renewable plant and all the useful methods for defining a RES plant. The library is currently used by the wind and solar CM modules
 
-
 ## Description
 
 This project provides Class and Methods to define renewable energy plants:
@@ -14,6 +13,12 @@ This project provides Class and Methods to define renewable energy plants:
 The Class provide also a method to compute the hourly profile based on the renewable.ninja API.
 For more information see the [documentaion](https://www.renewables.ninja/documentation)
 
+## How to install
+
+```
+pip install git+https://github.com/HotMaps/reslib.git
+```
+
 ## Examples
 
 ### Photovoltaic plant
@@ -21,7 +26,7 @@ For more information see the [documentaion](https://www.renewables.ninja/documen
 In this example a photovoltaic plant is created:
 
 ```
->>> import plant.pv as pv
+>>> import reslib.pv as pv
 >>> pvplant = pv.PV_plant(id='test', lat=34.125, long=39.814,
 ...                   k_pv=0.15, efficiency=0.75,
 ...                   peak_power=3)
@@ -32,7 +37,7 @@ In this example a photovoltaic plant is created:
 Here a wind turbine:
 
 ```
->>> import plant.wind as wind
+>>> import reslib.wind as wind
 >>> windplant = wind.Wind_plant(id='test', lat=34.125, long=39.814,
 ...                             peak_power=800, height=50, swept_area=8495,
 ...                             model='Enercon E48 800')
@@ -41,7 +46,7 @@ Here a wind turbine:
 and, finally, a solar thermal plant
 
 ```
->>> import plant.st as st
+>>> import reslib.st as st
 >>> stplant = st.ST_plant(id='test', lat=34.125, long=39.814,
 ...                         area=6)
 >>> stplant.hourlyprofile = stplant.profile()
