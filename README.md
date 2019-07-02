@@ -20,6 +20,16 @@ For more information see the [documentaion](https://www.renewables.ninja/documen
 pip install git+https://github.com/HotMaps/reslib.git
 ```
 
+## Environmental variables
+
+The environmental variable `RES_NINJA_TOKENS` set the tokens available
+to be used by the library.
+
+Use the environmental variable: `LRU_CACHE_MAXSIZE` to set the maximum size
+of the LRU cache, the default value is 2048.
+
+
+
 ## Examples
 
 ### Photovoltaic plant
@@ -55,9 +65,10 @@ and, finally, a solar thermal plant
 
 ## Authors
 
-Giulia Garegnani<sup>*</sup> 
+Giulia Garegnani<sup>1</sup>
+Pietro Zambelli<sup>1</sup>
 
-<sup>*</sup> Eurac Research 
+<sup>1</sup> Eurac Research
 
 Institute for Renewable Energy
 VoltaStraße/Via Via A. Volta 13/A
@@ -66,5 +77,7 @@ VoltaStraße/Via Via A. Volta 13/A
 
 ## Acknowledgement
 
-We would like to convey our deepest appreciation to the Horizon 2020 [Hotmaps Project](http://www.hotmaps-project.eu/) (Grant Agreement number 723677), which provided the funding to carry out the present investigation.
+We would like to convey our deepest appreciation to the Horizon 2020
+[Hotmaps Project](http://www.hotmaps-project.eu/) (Grant Agreement number 723677),
+which provided the funding to carry out the present investigation.
 

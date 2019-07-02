@@ -6,7 +6,8 @@ Created on Wed Dec 19 10:01:38 2018
 @author: ggaregnani
 """
 from . import plant as pl
-import requests
+from . import cached_requests as cr
+
 import pandas as pd
 
 # TODO: the idea is to set also a class for the planning rules in order to
@@ -20,14 +21,27 @@ class Wind_plant(pl.Plant):
     methods to compute different indicators. Additional parameters to
     Plant class
     """
-    def __init__(self, swept_area=None, height=None, model=None, **kwargs):
+    def __init__(self, lat, lon,
+                 date_from='2014-01-01',
+                 date_to='2014-12-31',
+                 dataset='merra2',
+                 peak_power=3,
+                 efficiency=0.4,
+                 swept_area=None,
+                 height=None,
+                 model=None):
         """Initialize the base and height attributes."""
+        # fix coordinates resolution to make them cacheable
+        self.lat, self.lon = cr.round_coords(lat, lon, res=0.5, ndigits=1)
+        # acept all the other parameters
+        self.date_from = date_from
+        self.date_to = date_to
+        self.dataset = dataset
+        self.peak_power = peak_power
+        self.efficiency = efficiency
         self.swept_area = swept_area
         self.height = height
         self.model = model
-        # TODO: acceptable list of attributes
-        for k in kwargs.keys():
-            self.__setattr__(k, kwargs[k])
 
     def compute_energy(self, speed, rho=1.225, working_hours=1700,
                        conv=1/1000):
@@ -61,17 +75,13 @@ class Wind_plant(pl.Plant):
         0.0
         """
         api_base = 'https://www.renewables.ninja/api/'
-        s = requests.session()
-        # Send token header with each request
-        if token:
-            s.headers = {'Authorization': 'Token ' + token}
         url = api_base + 'data/wind'
         args = {
             'lat': self.lat,
-            'lon': self.long,
-            'date_from': '2014-01-01',
-            'date_to': '2014-12-31',
-            'dataset': 'merra2',
+            'lon': self.lon,
+            'date_from': self.date_from,
+            'date_to': self.date_to,
+            'dataset': self.dataset,
             'height': self.height,
             'capacity': self.peak_power,
             'turbine': self.model,
@@ -80,10 +90,12 @@ class Wind_plant(pl.Plant):
             'raw': raw,
             'mean': mean,
         }
-        r = s.get(url, params=args)
-        # Parse JSON to get a pandas.DataFrame
-        df = pd.read_json(r.text, orient='index')
-        return df
+        json = cr.get(url, params=args, tokens=self.tokens)
+        if json:
+            # Parse JSON to get a pandas.DataFrame
+            df = pd.read_json(json, orient='index')
+            # modify the labels by deleting the year
+            return df
 
 
 if __name__ == "__main__":
