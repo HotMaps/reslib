@@ -68,11 +68,7 @@ and, finally, a solar thermal plant
 Giulia Garegnani<sup>1</sup>
 Pietro Zambelli<sup>1</sup>
 
-<sup>1</sup> Eurac Research
-
-Institute for Renewable Energy
-VoltaStraße/Via Via A. Volta 13/A
-39100 Bozen/Bolzano
+<sup>1</sup> [Eurac Research](http://www.eurac.edu)
 
 
 ## Acknowledgement
