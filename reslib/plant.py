@@ -48,23 +48,21 @@ class Financial:
         flows = []
         flows.append(self.investement_cost)
 
-        for i in range(1, self.plant_life+1):
-            flow_k = (self.yearly_cost *
-                      np.power(float(1+i_r), -i))
+        for i in range(1, self.plant_life + 1):
+            flow_k = self.yearly_cost * np.power(float(1 + i_r), -i)
             flows.append(flow_k)
 
         tot_inv_and_sum_annual_discounted_costs = sum(flows)
 
         discounted_ener = []
 
-        for i in range(1, self.plant_life+1):
-            discounted_ener_k = (energy_production *
-                                 np.power(float(1+i_r), -i))
+        for i in range(1, self.plant_life + 1):
+            discounted_ener_k = energy_production * np.power(float(1 + i_r), -i)
             discounted_ener.append(discounted_ener_k)
 
         total_discounted_energy = sum(discounted_ener)
 
-        lcoe = tot_inv_and_sum_annual_discounted_costs/total_discounted_energy
+        lcoe = tot_inv_and_sum_annual_discounted_costs / total_discounted_energy
         return lcoe
 
 
@@ -79,13 +77,18 @@ class Plant:
         :param yearly_cost: (Outflow) variable cost [positive real number]
         :param plant_life: number of year of plant life [integer]
     """
-    api_base = 'https://www.renewables.ninja/api/'
 
-    def __init__(self, id_plant,
-                 lat=None, lon=None,
-                 peak_power=None,
-                 efficiency=None,
-                 energy_production=None):
+    api_base = "https://www.renewables.ninja/api/"
+
+    def __init__(
+        self,
+        id_plant,
+        lat=None,
+        lon=None,
+        peak_power=None,
+        efficiency=None,
+        energy_production=None,
+    ):
         """Initialize the base and height attributes."""
         self._lat = None
         self._lon = None
@@ -110,12 +113,15 @@ class Plant:
         else:
             self._lat = cr.round_coords(lat)[0]
 
-    lat = property(fget=_get_lat, fset=_set_lat,
-                   doc="""
+    lat = property(
+        fget=_get_lat,
+        fset=_set_lat,
+        doc="""
     >>> plant = Plant("PV", lat=45.2345678)
     >>> plant.lat
     45.0
-""")
+""",
+    )
 
     def _get_lon(self):
         return self._lon
@@ -126,15 +132,18 @@ class Plant:
         else:
             self._lon = cr.round_coords(lon)[0]
 
-    lon = property(fget=_get_lon, fset=_set_lon,
-                   doc="""
+    lon = property(
+        fget=_get_lon,
+        fset=_set_lon,
+        doc="""
     >>> plant = Plant("PV", lon=10.8945678)
     >>> plant.lat
     10.5
-""")
-
+""",
+    )
 
 
 if __name__ == "__main__":
     import doctest
+
     doctest.testmod()

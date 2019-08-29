@@ -13,8 +13,7 @@ import math
 
 
 class PlanningRules:
-    def __init__(self, area_target, energy_target,
-                 area_available, energy_available):
+    def __init__(self, area_target, energy_target, area_available, energy_available):
         """
         The class defines the rule in the use of the energy reosurce
 
@@ -37,13 +36,13 @@ class PlanningRules:
         :param plant: plant object
         """
         n_plants_area = math.floor(self.area_target / plant.area)
-        n_plants_energy = math.floor(self.energy_target /
-                                     plant.energy_production)
+        n_plants_energy = math.floor(self.energy_target / plant.energy_production)
         return min(n_plants_area, n_plants_energy)
 
     def validity(self):
         """
         Verify the consistency between constraints
         """
-        return ((self.area_target <= self.area_available) &
-                (self.energy_target <= self.energy_available))
+        return (self.area_target <= self.area_available) & (
+            self.energy_target <= self.energy_available
+        )

@@ -40,8 +40,7 @@ def round_coords(*coords, res=0.5, ndigits=1):
     >>> round_coords(45.4451574, 11.1331589)
     (45.0, 11.0)
     """
-    return tuple([(round(coord, ndigits=ndigits) // res) * res
-                  for coord in coords])
+    return tuple([(round(coord, ndigits=ndigits) // res) * res for coord in coords])
 
 
 def g_requests(url, params, headers):
@@ -73,9 +72,11 @@ def g_requests(url, params, headers):
         raise ValueError(f"Status code not handled: {req.status_code}")
 
 
-def get(url, params,
-        tokens=shuffle(os.environ.get("RES_NINJA_TOKENS", ""
-                                      ).split(os.pathsep))):
+def get(
+    url,
+    params,
+    tokens=shuffle(os.environ.get("RES_NINJA_TOKENS", "").split(os.pathsep)),
+):
     """Return the text of a GET requests.
     The request is cached.
     Use the environmental variable: `LRU_CACHE_MAXSIZE` to set the maximum size
@@ -86,11 +87,12 @@ def get(url, params,
     The function raise a NotEnoughTokens exception when all the available tokens
     has been used.
     """
+
     @lru_cache(maxsize=os.environ.get("LRU_CACHE_MAXSIZE", 2048))
     def get_requests(url, **params):
         while len(tokens) > 0:
             token = tokens[0]
-            headers = {'Authorization': 'Token ' + token}
+            headers = {"Authorization": "Token " + token}
             try:
                 return g_requests(url, params, headers)
             except OverusedToken:
@@ -100,12 +102,16 @@ def get(url, params,
                 raise InvalidToken(f"Token {token!r} is not valid, return code: 403")
         # TODO: the list of tokens is finished
         # log the issue somewhere
-        raise NotEnoughTokens("Not enough tokens add more tokens to `RES_NINJA_TOKENS` "
-                              "environmental variable")
+        raise NotEnoughTokens(
+            "Not enough tokens add more tokens to `RES_NINJA_TOKENS` "
+            "environmental variable"
+        )
+
     return get_requests(url, **params)
 
 
 if __name__ == "__main__":
     import doctest
-    optionflags=doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE | doctest.REPORT_NDIFF
+
+    optionflags = doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE | doctest.REPORT_NDIFF
     doctest.testmod(optionflags=optionflags)

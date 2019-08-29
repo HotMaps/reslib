@@ -20,7 +20,8 @@ class ST_plant(pl.Plant):
 
     :param area: Surface area of the module [m^{2}]
     """
-    resource = 'data/pv'
+
+    resource = "data/pv"
 
     def __init__(self, area, efficiency=0.90, **kwargs):
         """Initialize the base and height attributes."""
@@ -32,14 +33,16 @@ class ST_plant(pl.Plant):
         """Calculate the energy production on the base"""
         return irradiation * self.area * self.efficiency
 
-    def profile(self,
-                date_from='2014-01-01',
-                date_to='2014-12-31',
-                dataset='merra2',
-                tracking=0,
-                tilt=30,
-                azim=180,
-                mean=None):
+    def profile(
+        self,
+        date_from="2014-01-01",
+        date_to="2014-12-31",
+        dataset="merra2",
+        tracking=0,
+        tilt=30,
+        azim=180,
+        mean=None,
+    ):
         """
         Return the dataframe with Pv profile
         >>> stplant = ST_plant(id='test', lat=34.125, lon=39.814,
@@ -49,32 +52,35 @@ class ST_plant(pl.Plant):
         0.0
         """
         args = {
-            'lat': self.lat,
-            'lon': self.lon,
-            'date_from': date_from,
-            'date_to': date_to,
-            'dataset': dataset,
-            'capacity': 1,
-            'system_loss': 0,
-            'tracking': tracking,
-            'tilt': tilt,
-            'azim': azim,
-            'format': 'json',
-            'raw': True,
-            'mean': mean,
+            "lat": self.lat,
+            "lon": self.lon,
+            "date_from": date_from,
+            "date_to": date_to,
+            "dataset": dataset,
+            "capacity": 1,
+            "system_loss": 0,
+            "tracking": tracking,
+            "tilt": tilt,
+            "azim": azim,
+            "format": "json",
+            "raw": True,
+            "mean": mean,
         }
         jsn = cr.get(self.api_base + self.resource, params=args)
         if jsn:
             # Parse JSON to get a pandas.DataFrame
             info = json.loads(jsn)
-            df = pd.read_json(json.dumps(info["data"]), orient='index')
+            df = pd.read_json(json.dumps(info["data"]), orient="index")
             # modify the labels by deleting the year
-            df['thermal'] = ((df['irradiance_diffuse'] +
-                              df['irradiance_direct']) * self.area *
-                             self.efficiency)
+            df["thermal"] = (
+                (df["irradiance_diffuse"] + df["irradiance_direct"])
+                * self.area
+                * self.efficiency
+            )
             return df
 
 
 if __name__ == "__main__":
     import doctest
+
     doctest.testmod()

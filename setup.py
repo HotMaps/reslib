@@ -15,8 +15,8 @@ with open("README.md", "r") as fh:
 setuptools.setup(
     name="reslib",
     version="0.0.1",
-    author='Giulia Garegnani',
-    author_email='giuliagaregnani@gmail.com',
+    author="Giulia Garegnani",
+    author_email="giuliagaregnani@gmail.com",
     description="Renewable energy plant classes",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -27,7 +27,5 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    install_requires=[
-          'pandas', 'requests'
-    ]
+    install_requires=["pandas", "requests"],
 )
