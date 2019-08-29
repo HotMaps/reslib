@@ -5,6 +5,8 @@ Created on Wed Dec 19 10:01:38 2018
 
 @author: ggaregnani
 """
+import json
+
 from . import plant as pl
 from . import cached_requests as cr
 
@@ -21,23 +23,15 @@ class Wind_plant(pl.Plant):
     methods to compute different indicators. Additional parameters to
     Plant class
     """
-    def __init__(self, lat, lon,
-                 date_from='2014-01-01',
-                 date_to='2014-12-31',
-                 dataset='merra2',
-                 peak_power=3,
+    resource = 'data/wind'
+
+    def __init__(self,
                  efficiency=0.4,
                  swept_area=None,
                  height=None,
-                 model=None):
+                 model=None, **kwargs):
         """Initialize the base and height attributes."""
-        # fix coordinates resolution to make them cacheable
-        self.lat, self.lon = cr.round_coords(lat, lon, res=0.5, ndigits=1)
-        # acept all the other parameters
-        self.date_from = date_from
-        self.date_to = date_to
-        self.dataset = dataset
-        self.peak_power = peak_power
+        super().__init__(**kwargs)
         self.efficiency = efficiency
         self.swept_area = swept_area
         self.height = height
@@ -64,7 +58,13 @@ class Wind_plant(pl.Plant):
                speed**3) * working_hours * conv
         return e_p
 
-    def profile(self, raw=False, mean=None, token=None):
+    def profile(self,
+                date_from='2014-01-01',
+                date_to='2014-12-31',
+                dataset='merra2',
+                height=None,
+                model=None,
+                raw=False, mean=None):
         """
         Return the dataframe with Wind turbine profile
         >>> windplant = Wind_plant(id='test', lat=34.125, long=39.814,
@@ -74,26 +74,25 @@ class Wind_plant(pl.Plant):
         >>> min(windplant.hourlyprofile['output'])
         0.0
         """
-        api_base = 'https://www.renewables.ninja/api/'
-        url = api_base + 'data/wind'
         args = {
             'lat': self.lat,
             'lon': self.lon,
-            'date_from': self.date_from,
-            'date_to': self.date_to,
-            'dataset': self.dataset,
-            'height': self.height,
+            'date_from': date_from,
+            'date_to': date_to,
+            'dataset': dataset,
+            'height': height,
             'capacity': self.peak_power,
-            'turbine': self.model,
+            'turbine': model,
             'format': 'json',
             'metadata': False,
             'raw': raw,
             'mean': mean,
         }
-        json = cr.get(url, params=args, tokens=self.tokens)
-        if json:
+        jsn = cr.get(self.api_base + self.resource, params=args)
+        if jsn:
             # Parse JSON to get a pandas.DataFrame
-            df = pd.read_json(json, orient='index')
+            info = json.loads(jsn)
+            df = pd.read_json(json.dumps(info["data"]), orient='index')
             # modify the labels by deleting the year
             return df
 

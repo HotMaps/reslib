@@ -7,6 +7,8 @@ Created on Wed Dec 19 10:01:38 2018
 """
 import numpy as np
 
+from . import cached_requests as cr
+
 
 class Financial:
     def __init__(self, investement_cost, yearly_cost, plant_life, **kwargs):
@@ -77,13 +79,20 @@ class Plant:
         :param yearly_cost: (Outflow) variable cost [positive real number]
         :param plant_life: number of year of plant life [integer]
     """
-    def __init__(self, id_plant, lat=None, long=None, peak_power=None,
+    api_base = 'https://www.renewables.ninja/api/'
+
+    def __init__(self, id_plant,
+                 lat=None, lon=None,
+                 peak_power=None,
                  efficiency=None,
-                 energy_production=None, financial=None):
+                 energy_production=None):
         """Initialize the base and height attributes."""
+        self._lat = None
+        self._lon = None
+
         self.id = id_plant
         self.lat = lat
-        self.long = long
+        self.lon = lon
         self.peak_power = peak_power
         self.energy_production = energy_production
         self.efficiency = efficiency
@@ -91,6 +100,39 @@ class Plant:
     def working_hours(self):
         """Calculate and return the area of the rectangle."""
         return self.energy_production / self.peak_power
+
+    def _get_lat(self):
+        return self._lat
+
+    def _set_lat(self, lat):
+        if lat is None:
+            self._lat = None
+        else:
+            self._lat = cr.round_coords(lat)[0]
+
+    lat = property(fget=_get_lat, fset=_set_lat,
+                   doc="""
+    >>> plant = Plant("PV", lat=45.2345678)
+    >>> plant.lat
+    45.0
+""")
+
+    def _get_lon(self):
+        return self._lon
+
+    def _set_lon(self, lon):
+        if lon is None:
+            self._lon = None
+        else:
+            self._lon = cr.round_coords(lon)[0]
+
+    lon = property(fget=_get_lon, fset=_set_lon,
+                   doc="""
+    >>> plant = Plant("PV", lon=10.8945678)
+    >>> plant.lat
+    10.5
+""")
+
 
 
 if __name__ == "__main__":
