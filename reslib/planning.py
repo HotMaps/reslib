@@ -5,13 +5,14 @@ Created on Mon Jun 17 09:30:15 2019
 
 @author: ggaregnani
 """
+import math
 
 # TODO: the idea is to set also a class for the planning rules in order to
 # have the possibility to analyze potential territorial conflicts. this
 # is a first tentative
 
 
-class Planning_rules:
+class PlanningRules:
     def __init__(self, area_target, energy_target,
                  area_available, energy_available):
         """
@@ -35,14 +36,14 @@ class Planning_rules:
 
         :param plant: plant object
         """
-        n_plants_area = self.area_target / plant.area
-        n_plants_energy = self.energy_target / plant.energy_production
-        return min(int(n_plants_area), int(n_plants_energy))
+        n_plants_area = math.floor(self.area_target / plant.area)
+        n_plants_energy = math.floor(self.energy_target /
+                                     plant.energy_production)
+        return min(n_plants_area, n_plants_energy)
 
     def validity(self):
         """
         Verify the consistency between constraints
         """
-        consistency = ((self.area_target <= self.area_available) *
-                       (self.energy_target <= self.energy_available))
-        return consistency
+        return ((self.area_target <= self.area_available) &
+                (self.energy_target <= self.energy_available))
