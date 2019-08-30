@@ -14,9 +14,9 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="reslib",
-    version="0.0.1",
-    author="Giulia Garegnani",
-    author_email="giuliagaregnani@gmail.com",
+    version="0.1.1",
+    author="Pietro Zambelli",
+    author_email="pietro.zambelli@eurac.edu",
     description="Renewable energy plant classes",
     long_description=long_description,
     long_description_content_type="text/markdown",
