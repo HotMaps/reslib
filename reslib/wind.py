@@ -7,8 +7,8 @@ Created on Wed Dec 19 10:01:38 2018
 """
 import json
 
-from . import plant as pl
-from . import cached_requests as cr
+from reslib import plant as pl
+from reslib import cached_requests as cr
 
 import pandas as pd
 
@@ -17,7 +17,7 @@ import pandas as pd
 # is a first tentative
 
 
-class Wind_plant(pl.Plant):
+class WindPlant(pl.Plant):
     """
     The class describes a wind plant providing
     methods to compute different indicators. Additional parameters to
@@ -47,38 +47,38 @@ class Wind_plant(pl.Plant):
         return the energy production according to the conversion factor,
         (default unit) kWh
 
-        >>> plant = Wind_plant(id_plant="test", swept_area=8495, height=50,
+        >>> plant = WindPlant(id_plant="test", swept_area=8495, height=50,
         ...                    efficiency=0.4, model='Enercon E48 800')
         >>> plant.compute_energy(speed=12)
         6113953.44
         """
-        e_p = (
+        return (
             (0.5 * self.efficiency * rho * self.swept_area * speed ** 3)
             * working_hours
             * conv
         )
-        return e_p
 
     def profile(
         self,
         date_from="2014-01-01",
         date_to="2014-12-31",
         dataset="merra2",
-        height=None,
-        model=None,
+        height=80,
+        model="Enercon E82 2000",
         raw=False,
         mean=None,
     ):
         """
         Return the dataframe with Wind turbine profile
-        >>> windplant = Wind_plant(id='test', lat=34.125, long=39.814,
-        ...                        peak_power=800, height=50, swept_area=8495,
-        ...                        model='Enercon E48 800')
+        >>> windplant = WindPlant(id_plant='test', lat=34.125, lon=39.814,
+        ...                       peak_power=2000., height=80, swept_area=5281,
+        ...                       model='Enercon E82 2000')
         >>> windplant.hourlyprofile = windplant.profile()
         >>> min(windplant.hourlyprofile['output'])
         0.0
         """
         args = {
+            "local_time": True,
             "lat": self.lat,
             "lon": self.lon,
             "date_from": date_from,
@@ -88,9 +88,7 @@ class Wind_plant(pl.Plant):
             "capacity": self.peak_power,
             "turbine": model,
             "format": "json",
-            "metadata": False,
-            "raw": raw,
-            "mean": mean,
+            "raw": True,
         }
         jsn = cr.get(self.api_base + self.resource, params=args)
         if jsn:

@@ -13,7 +13,7 @@ from . import plant as pl
 from . import cached_requests as cr
 
 
-class PV_plant(pl.Plant):
+class PvPlant(pl.Plant):
     """
         The class describes a photovoltaic plant providing
         methods to compute different indicators. Additional parameters to
@@ -43,7 +43,7 @@ class PV_plant(pl.Plant):
         :param irradiation: mean irradiation [kWh/kWp/year]
         :return: the energy produced by the pv panels [kWh/year]
 
-        >>> pvplant = PV_plant(id='test',k_pv=0.15, efficiency=0.75,
+        >>> pvplant = PvPlant(id_plant='test',k_pv=0.15, efficiency=0.75,
         ...                    peak_power=3)
         >>> pvplant.compute_energy(1350)
         3037.5
@@ -62,9 +62,9 @@ class PV_plant(pl.Plant):
     ):
         """
         Return the dataframe with Pv profile
-        >>> pvplant = PV_plant(id='test', lat=34.125, lon=39.814,
+        >>> pvplant = PvPlant(id_plant='test', lat=34.125, lon=39.814,
         ...                   k_pv=0.15, efficiency=0.75,
-        ...                   peak_power=3, tokens=[])
+        ...                   peak_power=3)
         >>> pvplant.hourlyprofile = pvplant.profile()
         >>> min(pvplant.hourlyprofile['output'])
         0.0

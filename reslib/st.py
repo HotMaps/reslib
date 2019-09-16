@@ -12,7 +12,7 @@ from . import plant as pl
 from . import cached_requests as cr
 
 
-class ST_plant(pl.Plant):
+class StPlant(pl.Plant):
     """
     The class describes a solarthermal plant providing
     methods to compute different indicators. Additional parameters to
@@ -45,7 +45,7 @@ class ST_plant(pl.Plant):
     ):
         """
         Return the dataframe with Pv profile
-        >>> stplant = ST_plant(id='test', lat=34.125, lon=39.814,
+        >>> stplant = StPlant(id_plant='test', lat=34.125, lon=39.814,
         ...                   area=6, efficiency=0.90)
         >>> stplant.hourlyprofile = stplant.profile()
         >>> min(stplant.hourlyprofile['output'])
