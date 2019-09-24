@@ -35,7 +35,7 @@ class Financial:
         :param energy_production: total energy generated during a year
                                   [kWh/year] [ positive real number]
         :param self: Feasibility object with costs and plant life
-        :returns: the levelized cost of energy [currency/kWh]
+        :returns: the levelized cost of energy [Euro/kWh]
 
         test: geothermal savings oil
         >>> feasability = Financial(7473340, 4918, 27)
